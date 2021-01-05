@@ -67,8 +67,26 @@
         mounted: function () {
             let map;
             const element = document.getElementById(this.mapName);
-            let lat = this.field.initial_lat || 38.261842;
-            let lng = this.field.initial_lng || -0.6868031;
+
+            let lat,lng;
+
+            if(this.field.initial_lat && this.field.initial_lng){
+                 lat = this.field.initial_lat;
+                 lng = this.field.initial_lng;
+            }
+            else
+            if ("geolocation" in navigator) {
+
+            navigator.geolocation.getCurrentPosition(function(position) {
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;
+            });
+
+            }
+            else{
+                lat = "21.501008";
+                lng = "39.220796";
+            } 
 
             if (this.field.lat && this.field.lng){
                 lat = this.field.lat;
